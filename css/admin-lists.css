@@ -1,0 +1,10 @@
+#preview_image{
+    display: block;
+    margin: .5em 0;
+    padding: .5em;
+    background-color: #F1F1F1;
+}
+
+.record_fields {
+    width: 80%;
+}
