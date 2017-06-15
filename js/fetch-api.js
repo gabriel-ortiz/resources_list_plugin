@@ -11,7 +11,7 @@ jQuery(document).ready(function($){
     $this.record_cover    = $('#record_cover');
     $this.catalog_url     = $('#record_URL');    
 
-    $this.isbn              = $("[name='record_isbn']");
+    $this.isbn          = $("[name='record_isbn']");
 
     
 
@@ -28,7 +28,11 @@ jQuery(document).ready(function($){
     //check to see if image exists
     if( $this.record_cover != '') {
         //console.log('image detected', $this.record_cover);
-        $this.record_cover.after( $this.preview_cover );
+
+        $this.preview_cover
+            .hide()
+            .insertAfter($this.record_cover)
+            .fadeIn('1200');
     }
 
     //<img id="loading-animation" src="<?php echo esc_url( admin_url() . '/images/loading.gif' ); ?>" alt="loading"/>
@@ -60,15 +64,48 @@ jQuery(document).ready(function($){
                 //hide loading image
                 $this.loading_image.remove();
                 
-                var author_array = data.items[0].volumeInfo.authors;
-                author_array.join(', ');
+                if(data.totalItems > 0){
+                    
+                    var author_array = data.items[0].volumeInfo.authors;
+                    author_array.join(', ');
+                    
+                    $this.record_title.val(data.items[0].volumeInfo.title);
+                    $this.record_author.val(author_array);
+                    $this.record_cover.val(data.items[0].volumeInfo.imageLinks.thumbnail);
+                    $this.preview_cover.attr('src', data.items[0].volumeInfo.imageLinks.thumbnail );
+                    $this.catalog_url.val($this.record_path);                
+                    
+                }else{
+                    //alert('Sorry, no records found');
+                    
+                     $.ajax({
+                            type: 'POST',
+                            url: ajaxurl,
+                            data: {
+                                "action": "test_function"
+                            },
+                            success: function(response){
+                                var recordError = $('<div />',{
+                                   'class': 'error',
+                                   'text': 'Sorry no records were found. Bummer!',
+                                   'css': {'padding': '10px'}
+                                });
+                                
+                                $('.wp-heading-inline').after(recordError);
+                                    setTimeout(function(){
+                                        recordError.fadeOut(700, function(){
+                                            this.remove();
+                                        });
+                                    }, 4000);
+                            }
+                        });                    
+                }
                 
-                $this.record_title.val(data.items[0].volumeInfo.title);
-                $this.record_author.val(author_array);
-                $this.record_cover.val(data.items[0].volumeInfo.imageLinks.thumbnail);
-                $this.preview_cover.attr('src', data.items[0].volumeInfo.imageLinks.thumbnail );
-                $this.catalog_url.val($this.record_path);
+
                 
+            },
+            fail: function(errorResponse){
+                alert(errorResponse);
             }
        });
     });

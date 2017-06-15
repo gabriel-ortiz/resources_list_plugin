@@ -20,13 +20,6 @@ class resource_list_fields{
     	}
     }
     
-    //checks for dat aand sends to database. This function simplifies the code for performing this action.
-    public static function go_send_post_db( $post_id, $meta_id, $dataValue){
-    	if(isset($dataValue) ){
-    		update_post_meta($post_id, $meta_id, $dataValue );
-    		//sanitize_text_field($dataValue
-    	}
-    }    
   
 
     //initialize all the hooks into the core
@@ -39,7 +32,10 @@ class resource_list_fields{
     add_filter( 'wp_insert_post_data' , [$this, 'modify_post_title'] , '99', 1 );    
     
     //save fields
-    add_action('save_post', [$this, 'resource_meta_save'] );   
+    add_action('save_post', [$this, 'resource_meta_save'] ); 
+    
+    //add alert message
+    add_action('wp_ajax_test_function', [$this, 'resource_alert'] );
   
     }
 
@@ -144,15 +140,27 @@ class resource_list_fields{
     	// 	update_post_meta( $post_id , 'job_id', sanitize_text_field( $_POST['job_id'] ) );
     	// }
     	
-    	go_send_post_db($post_id=$post_id, $meta_id='record_isbn', $dataValue=$_POST['record_isbn']);
+    	
+    	if( isset($_POST['record_isbn'])){
+        	update_post_meta($post_id=$post_id, $meta_id='record_isbn', sanitize_text_field($_POST['record_isbn'] ) );   	    
+    	}
+
+        if( isset( $_POST['record_title'] ) ){
+     	    update_post_meta($post_id=$post_id, $meta_id='record_title', sanitize_text_field( $_POST['record_title'] ) );           
+        }
     
-    	go_send_post_db($post_id=$post_id, $meta_id='record_title', $dataValue=$_POST['record_title']);
+        if( isset( $_POST['record_author'] ) ){
+     	    update_post_meta($post_id=$post_id, $meta_id='record_author', sanitize_text_field( $_POST['record_author'] ) );           
+        }
+
+        if( isset($_POST['record_cover']) ){
+        	update_post_meta($post_id=$post_id, $meta_id='record_cover', sanitize_text_field( $_POST['record_cover'] ) );            
+        }
     	
-    	go_send_post_db($post_id=$post_id, $meta_id='record_author', $dataValue=$_POST['record_author']);
+        if( isset( $_POST['record_URL'] ) ){
+    	    update_post_meta($post_id=$post_id, $meta_id='record_URL', sanitize_text_field( $_POST['record_URL'] ) );	            
+        }
     	
-    	go_send_post_db($post_id=$post_id, $meta_id='record_cover', $dataValue=$_POST['record_cover']);	
-    	
-    	go_send_post_db($post_id=$post_id, $meta_id='record_URL', $dataValue=$_POST['record_URL']);	
     	
     }    
     
@@ -162,6 +170,26 @@ public function modify_post_title( $data ){
   }
   return $data; // Returns the modified data.
 }  
-    
+
+
+//alert message
+
+
+
+function resource_alert() {
+    add_action('admin_notices', 'my_error_notice');
+}
+
+function my_error_notice () {
+    // global $my_admin_page;
+    // $screen = get_current_screen();
+    // if ( $screen->id == $my_admin_page ) {
+    //         echo '<div class="error"><p>This is my error message.</p></div>';
+    //     } else {
+    //   return;
+    //     }
+    echo "this is an error message";
+}
+
     
 }//end of resource_list_fields class
