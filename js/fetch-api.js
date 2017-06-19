@@ -1,5 +1,5 @@
 jQuery(document).ready(function($){
-    
+
     //cache global scoping
     var $this = this;
     
@@ -26,8 +26,8 @@ jQuery(document).ready(function($){
         $this.preview_cover.attr('id', 'preview_image');    
     
     //check to see if image exists
-    if( $this.record_cover != '') {
-        //console.log('image detected', $this.record_cover);
+    if( $this.record_cover.val().length !== 0 ) {
+        console.log('image detected', $this.record_cover.val() );
 
         $this.preview_cover
             .hide()
@@ -72,7 +72,14 @@ jQuery(document).ready(function($){
                     $this.record_title.val(data.items[0].volumeInfo.title);
                     $this.record_author.val(author_array);
                     $this.record_cover.val(data.items[0].volumeInfo.imageLinks.thumbnail);
-                    $this.preview_cover.attr('src', data.items[0].volumeInfo.imageLinks.thumbnail );
+                    
+                    $this.preview_cover
+                        .attr('src', data.items[0].volumeInfo.imageLinks.thumbnail )
+                        .hide()
+                        .insertAfter($this.record_cover)
+                        .fadeIn('1200');
+                        
+                    //$this.preview_cover.attr('src', data.items[0].volumeInfo.imageLinks.thumbnail );
                     $this.catalog_url.val($this.record_path);                
                     
                 }else{
