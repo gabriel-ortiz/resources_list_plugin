@@ -29,15 +29,16 @@ class resource_list{
         
         //enqueue admin scripts
         add_action( 'admin_enqueue_scripts', [$this, 'add_admin_scripts' ] );
+
     }
     
     //enqueue scripts 
     
     public function add_admin_scripts(){
         //add globals
-        global $pagenow, $typenow;        
+        global $pagenow, $typenow, $post;
         
-        if( ($pagenow == 'post.php' || $pagenow == 'post-new.php' ) && $typenow == 'resource_list_item' ){
+        if( ($pagenow == 'post.php' || $pagenow == 'post-new.php' || $_GET['page'] == 'resourcelist') && $typenow == 'resource_list_item' ){
         //add custom script
             wp_enqueue_script(
                 $handle   = 'fetch-api', 
@@ -61,11 +62,15 @@ class resource_list{
             );
             
             wp_enqueue_style(
-                $handle    = 'dwwp-admin-css',
+                $handle    = 'resource-admin',
                 $src        = plugins_url('css/admin-lists.css', __FILE__)
             ); 
         }
-    }
+        
+        
+    }//end of add_admin_scripts
+    
+    
     
     
 }

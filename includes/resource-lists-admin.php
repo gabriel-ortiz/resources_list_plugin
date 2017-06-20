@@ -53,27 +53,27 @@ public function add_resourcelist_submenu(){
                             <table class="form-table">
                                 <tr valign="top">
                                 <th scope="row">Google API Key</th>
-                                <td><input type="text" name="google_api" value="<?php echo esc_attr( get_option('google_api') ); ?>" /></td>
+                                <td><input class="record_fields" type="text" name="google_api" value="<?php echo esc_attr( get_option('google_api') ); ?>" /></td>
                                 </tr>
                                  
                                 <tr valign="top">
                                 <th scope="row">Discovery Beginning URL</th>
-                                <td><input type="text" name="catalog_url" value="<?php echo esc_attr( get_option('catalog_url') ); ?>" /></td>
+                                <td><input class="record_fields" type="text" name="catalog_url" value="<?php echo esc_attr( get_option('catalog_url') ); ?>" /></td>
                                 </tr>
                                 
                                 <tr valign="top">
                                 <th scope="row">Closing Discovery URL (if any)</th>
-                                <td><input type="text" name="closing_catalog_url" value="<?php echo esc_attr( get_option('closing_catalog_url') ); ?>" /></td>
+                                <td><input class="record_fields" type="text" name="closing_catalog_url" value="<?php echo esc_attr( get_option('closing_catalog_url') ); ?>" /></td>
                                 </tr>
                             
                                 <tr valign="top">
                                 <th scope="row">Default Image URL</th>
-                                <td><input type="text" name="default_img_cover" value="<?php echo esc_attr( get_option('default_img_cover') ); ?>" /></td>
+                                <td><input class="record_fields" type="text" name="default_img_cover" value="<?php echo esc_attr( get_option('default_img_cover') ); ?>" /></td>
                                 </tr>                                  
                                 
                                 <tr valign="top">
                                 <th scope="row">Institution Name</th>
-                                <td><input type="text" name="inst_name" value="<?php echo esc_attr( get_option('inst_name') ); ?>" /></td>
+                                <td><input class="record_fields" type="text" name="inst_name" value="<?php echo esc_attr( get_option('inst_name') ); ?>" /></td>
                                 </tr>
                             </table>        	            
             	            <?php submit_button(); ?>

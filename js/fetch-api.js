@@ -13,6 +13,14 @@ jQuery(document).ready(function($){
 
     $this.isbn          = $("[name='record_isbn']");
 
+    //disable wordpress's enter to save function
+    $this.isbn.on('keyup keypress', function(e) {
+        var keyCode = e.keyCode || e.which;
+        if (keyCode === 13) { 
+            e.preventDefault();
+            return false;
+        }
+    });
     
 
     //set up google API variables
@@ -61,6 +69,8 @@ jQuery(document).ready(function($){
             type: 'GET',
             dataType: 'jsonp',
             success: function(data){
+                //SUCCESS!
+                
                 //hide loading image
                 $this.loading_image.remove();
                 
@@ -83,8 +93,7 @@ jQuery(document).ready(function($){
                     $this.catalog_url.val($this.record_path);                
                     
                 }else{
-                    //alert('Sorry, no records found');
-                    
+                    //no results found
                      $.ajax({
                             type: 'POST',
                             url: ajaxurl,
@@ -103,7 +112,7 @@ jQuery(document).ready(function($){
                                         recordError.fadeOut(700, function(){
                                             this.remove();
                                         });
-                                    }, 4000);
+                                    }, 3000);
                             }
                         });                    
                 }
@@ -111,6 +120,7 @@ jQuery(document).ready(function($){
 
                 
             },
+            //error with the search
             fail: function(errorResponse){
                 alert(errorResponse);
             }
