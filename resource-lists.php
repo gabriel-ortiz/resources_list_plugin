@@ -18,6 +18,8 @@ if(!defined( 'ABSPATH')){
 class resource_list{
     //kick off the class with constructor to load all files, enqueue scripts, set up dependencies
     public function __construct(){
+        
+        //pull in other includes and start classes
         require_once( plugin_dir_path(__FILE__). 'includes/resource-lists-cpt.php' );
         $init_booklist_CTP = new resource_list_CPT();
         
@@ -27,12 +29,12 @@ class resource_list{
         require_once( plugin_dir_path(__FILE__). 'includes/resource-lists-fields.php' );
         $init_booklist_fields = new resource_list_fields();
         
+        require_once( plugin_dir_path(__FILE__). 'includes/resource-lists-api.php' );
+        $init_booklist_fields = new resource_list_API();
+        
         //enqueue admin scripts
         add_action( 'admin_enqueue_scripts', [$this, 'add_admin_scripts' ] );
         
-        //adding custom fields to rest API
-        add_action('rest_api_init', [$this,'register_custom_fields']);
-
     }
     
     //enqueue scripts 
@@ -73,52 +75,6 @@ class resource_list{
         
     }//end of add_admin_scripts
     
-    public function register_custom_fields(){
-        register_rest_field(
-              $object_type  = 'resource_list_item',
-              $attribute    = 'record_title',
-              $args         = array(
-                                    'get_callback' => [$this, 'show_fields']
-                                )
-            );
-            
-            
-        register_rest_field(
-              $object_type  = 'resource_list_item',
-              $attribute    = 'record_author',
-              $args         = array(
-                                    'get_callback' => [$this, 'show_fields']
-                                )
-            );
-            
-        register_rest_field(
-              $object_type  = 'resource_list_item',
-              $attribute    = 'record_cover',
-              $args         = array(
-                                    'get_callback' => [$this, 'show_fields']
-                                )
-            );
-            
-        register_rest_field(
-              $object_type  = 'resource_list_item',
-              $attribute    = 'record_URL',
-              $args         = array(
-                                    'get_callback' => [$this, 'show_fields']
-                                )
-            );  
-            
-        register_rest_field(
-              $object_type  = 'resource_list_item',
-              $attribute    = 'record_isbn',
-              $args         = array(
-                                    'get_callback' => [$this, 'show_fields']
-                                )
-            );              
-    }
-    
-    public function show_fields($object, $field_name, $request){
-        return get_post_meta($object['id'], $field_name, true );
-    }
 }
 
 $init_resource_plugin = new resource_list();

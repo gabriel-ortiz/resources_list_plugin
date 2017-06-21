@@ -1,5 +1,11 @@
 <?php
 
+//Exit if accessed directly
+if(!defined( 'ABSPATH')){
+    exit;
+}
+
+
 /**
  * Admin Menu
  * https://www.sitepoint.com/create-a-wordpress-theme-settings-page-with-the-settings-api/

@@ -25,8 +25,14 @@ public function go_send_post_db( $post_id, $meta_id, $data_value){
 
     
 	if( isset( $data_value )  && !empty( $data_value ) ){
+	    
+	    if( $meta_id != 'record_URL' ){
+		    update_post_meta($post_id, $meta_id, sanitize_text_field( $data_value ) );	        
+	    }else{
+	        //don't strip out URL encoding from the url field
+	        update_post_meta($post_id, $meta_id, $data_value );
+	    }
 
-		update_post_meta($post_id, $meta_id, sanitize_text_field( $data_value ) );
 	}else{
         return;
 	}
