@@ -1,14 +1,15 @@
 
 ( function( window, $ ) {
 	'use strict';
-	var document = window.document;
+    var document = window.document;
 
-    var api_data = {};
+    var api_data = function(){};
     
     api_data.init = function(){
         
             //cach this with init
             var init = this;
+
             
             //grab the DOM elements
             init.search_api = $('#search_api');
@@ -150,13 +151,14 @@
             init.fetch_api_data();
         });   
 
-    console.log('this is working, success!!!');
+
     };
 
 
     //start the function
     $(document).ready(function(){
         api_data.init();
+
     });
 
 } )( this, jQuery );

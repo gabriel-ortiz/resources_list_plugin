@@ -39,7 +39,7 @@ public function go_send_post_db( $post_id, $meta_id, $data_value){
 }
  
 
-public function debug_to_console( $data ) {
+static function debug_to_console( $data ) {
     $output = $data;
     if ( is_array( $output ) ){
         $output = implode( ',', $output);

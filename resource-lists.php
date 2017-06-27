@@ -37,13 +37,24 @@ class resource_list{
         
     }
     
-    //enqueue scripts 
+    //enqueue scripts
     
     public function add_admin_scripts(){
         //add globals
         global $pagenow, $typenow, $post;
         
-        if( ($pagenow == 'post.php' || $pagenow == 'post-new.php' || $_GET['page'] == 'resourcelist') && $typenow == 'resource_list_item' ){
+        //there's probably a better way of doing this - but checking for admin slug to equal resourcelist
+        function get_admin_slug(){
+            if( isset( $_GET['page'] ) && $_GET['page'] == 'resourcelist'  ){
+
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        
+        if( ($pagenow == 'post.php' || $pagenow == 'post-new.php' || get_admin_slug() ) && $typenow == 'resource_list_item' ){
         //add custom script
             wp_enqueue_script(
                 $handle   = 'fetch-api', 
